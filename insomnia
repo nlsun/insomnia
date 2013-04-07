@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# prevents xscreensaver from blanking/locking screen
+
+case $1 in
+	-t | --time) #time to stay awake for, in minutes
+		n=0
+		if [ $2 -eq $2 ] 2>/dev/null; then #checks if whole number and hides error message
+			while [ $2 -gt $n ]; do
+				xscreensaver-command -deactivate > /dev/null
+				sleep 59
+				n=$(($n+1))
+			done
+			exit
+		else
+			while true; do
+				xscreensaver-command -deactivate > /dev/null
+				sleep 59
+			done
+		fi
+		;;
+	-f | --forever) #never sleeps
+		while true; do
+			xscreensaver-command -deactivate > /dev/null
+			sleep 59
+		done
+		;;
+	-q | --quit) #kills everything and activates screensaver
+	  	xscreensaver-command -activate > /dev/null
+			#xset dpms force off #optional, to turn off screen as well
+		killall insomnia_i
+		killall insomnia
+		exit
+		;;
+	-i | --interactive) #command line interactive tool
+		insomnia_i
+		exit
+		;;
+	*)
+		echo "Usage: [-t | --time] [-f | --forever] [-q | --quit] [-i | --interactive]"
+		exit	
+		;;
+esac

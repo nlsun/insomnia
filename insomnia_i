@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# prevents xscreensaver from blanking/locking screen
+
+echo -n "Prevent sleep for __ minute(s) > "
+read minutes
+
+n=0
+
+if [ "$minutes" -eq "$minutes" ] 2>/dev/null; then #checks if whole number and hides error message
+	while [ $minutes -gt $n ]; do
+		xscreensaver-command -deactivate
+		sleep 59
+		n=$(($n+1))
+	done
+	if [ $minutes -gt "0" ]; then
+		echo "--Prevented sleep for $minutes minute(s)"
+	else
+		echo "--Prevented sleep for 0 minute(s)"
+	fi
+	exit
+else
+	echo "--Preventing sleep indefinitely"
+	while true; do
+		xscreensaver-command -deactivate
+		sleep 59
+	done
+fi
