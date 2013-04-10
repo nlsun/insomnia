@@ -11,6 +11,7 @@ case $1 in
 				sleep 59
 				n=$(($n+1))
 			done
+      xscreensaver-command -activate > /dev/null
 			exit
 		else
 			while true; do
@@ -18,7 +19,6 @@ case $1 in
 				sleep 59
 			done
 		fi
-    xscreensaver-command -activate > /dev/null
 		;;
 	-f | --forever) #never sleeps
 		while true; do
