@@ -17,6 +17,7 @@ if [ "$minutes" -eq "$minutes" ] 2>/dev/null; then #checks if whole number and h
 	done
 	if [ $minutes -gt "0" ]; then
 		echo "--Prevented sleep for $minutes minute(s)"
+    xscreensaver-command -activate > /dev/null
 	else
 		echo "--Prevented sleep for 0 minute(s)"
 	fi
