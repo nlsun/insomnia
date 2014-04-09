@@ -3,9 +3,14 @@
 # prevents xscreensaver from blanking/locking screen
 
 case $1 in
-	-t | --time) #time to stay awake for, in minutes
+	-t | --time) # time to stay awake for, in minutes
+        if [ $(pidof -x insomnia| wc -w) -gt 2 ]; then 
+            echo "insomnia already running, will not be rerun..."
+            exit
+        fi
+        echo "insomnia for $2 minutes"
 		n=0
-		if [ $2 -eq $2 ] 2>/dev/null; then #checks if whole number and hides error message
+		if [ $2 -eq $2 ] 2>/dev/null; then # checks if whole number and hides error message
 			while [ $2 -gt $n ]; do
 				xscreensaver-command -deactivate > /dev/null
 				sleep 59
@@ -20,20 +25,26 @@ case $1 in
 			done
 		fi
 		;;
-	-f | --forever) #never sleeps
+	-f | --forever) # never sleeps
+        if [ $(pidof -x insomnia| wc -w) -gt 2 ]; then 
+            echo "insomnia already running, will not be rerun..."
+            exit
+        fi
+        echo "insomnia forever"
 		while true; do
 			xscreensaver-command -deactivate > /dev/null
 			sleep 59
 		done
 		;;
-	-q | --quit) #kills everything and activates screensaver
-	  	xscreensaver-command -activate > /dev/null
-			#xset dpms force off #optional, to turn off screen as well
-		killall insomnia_i
-		killall insomnia
+	-q | --quit) # activates screensaver
+        xscreensaver-command -activate > /dev/null
+        # optional, to turn off screen as well
+        # xset dpms force off
+        killall insomnia_i
+        killall insomnia
 		exit
 		;;
-	-i | --interactive) #command line interactive tool
+	-i | --interactive) # command line interactive tool
 		insomnia_i
 		exit
 		;;
