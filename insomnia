@@ -4,10 +4,12 @@
 
 case $1 in
 	-t | --time) # time to stay awake for, in minutes
-        if [ $(pidof -x insomnia| wc -w) -gt 2 ]; then 
-            echo "insomnia already running, will not be rerun..."
-            exit
-        fi
+        for pid in $(pidof -x insomnia); do
+            if [ $pid != $$ ]; then
+                echo "[$(date)] : insomnia : Process is already running with PID $pid"
+                exit 1
+            fi
+        done
         echo "insomnia for $2 minutes"
 		n=0
 		if [ $2 -eq $2 ] 2>/dev/null; then # checks if whole number and hides error message
@@ -26,10 +28,12 @@ case $1 in
 		fi
 		;;
 	-f | --forever) # never sleeps
-        if [ $(pidof -x insomnia| wc -w) -gt 2 ]; then 
-            echo "insomnia already running, will not be rerun..."
-            exit
-        fi
+        for pid in $(pidof -x insomnia); do
+            if [ $pid != $$ ]; then
+                echo "[$(date)] : insomnia : Process is already running with PID $pid"
+                exit 1
+            fi
+        done
         echo "insomnia forever"
 		while true; do
 			xscreensaver-command -deactivate > /dev/null
